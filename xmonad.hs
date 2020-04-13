@@ -23,6 +23,8 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.FadeInactive()
 
+import XMonad.Actions.SpawnOn
+
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -56,6 +58,8 @@ myModMask       = mod4Mask
 -- A tagging example:
 
 myWorkspaces = ["web", "code", "moni", "free"]
+
+--wk = myWorkspaces !! 3
 --myWorkspaces = ["web", "code", "moni"] ++ map show [4..9]
 --myWorkspaces = ["web", "irc", "code" ]
 --myWorkspaces    = ["壱","弐","参","肆","伍","陸","漆","捌","玖"]
@@ -70,8 +74,7 @@ myFocusedBorderColor = darkGreen_Color
 -- Color palette
 --
 
-fullBlack_Color   = "000000"
-
+fullBlack_Color   = "#000000"
 darckBlack_Color  = "#1a1a1a"
 darkGray_Color    = "#4e4e4e"
 darkAshGray_Color = "#919191"
@@ -81,7 +84,6 @@ darkGreen_Color   = "#64c74c"
 darkYellow_Color  = "#ffb600"
 darkPink_Color    = "#fc4067"
 darkRed_Color     = "#ff0d0d"
-
 brightPink_Color  = "#ff8ca4"
 
 ------------------------------------------------------------------------
@@ -256,6 +258,9 @@ myManageHook = composeAll
     , className =? "brightness-controller" -->  doFloat
     , resource  =? "desktop_window"        -->  doIgnore
     , resource  =? "kdesktop"              -->  doIgnore
+    --, className =? "Mikutter.rb"         -->  doShift (myWorkspaces !! 1)
+    --, className =? "Mikutter.rb"         -->  doShift (myWorkspaces !! 2)
+    , className =? "gnome-terminal"         -->  doShift (myWorkspaces !! 3)
     --, className =? "Mikutter.rb"         -->  doShift (myWorkspaces !! 0)
     --, className =? "Corebird"            -->  doShift (myWorkspaces !! 0)
     --, className =? "/usr/bin/firefox"      -->  doShift (myWorkspaces !! 0)
@@ -330,7 +335,14 @@ myStartupHook = do
   spawn "compton -c -r 2 -o 0.8 -l -2 -t -2"
   --spawn "xscreensaver"
   setWMName "LG3D"  -- for java apps
+  --spawnOn "3" "firefox"
+  --spawn "gnome-terminal"
+  spawnOn (myWorkspaces !! 3) "gnome-terminal"
+  --spawnOn "free" "firefox"
 
+
+  --spawnOn "myWorkspaces !! 3" "firefox"
+  --spawnOn "wk" "firefox"
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
